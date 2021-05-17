@@ -1,24 +1,46 @@
 // array stores possible letters
-// wins var
-//losses var
+let lttrArray = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "x", "y", "z"]
+let rando = 0
+let wins = 0
+let losses = 0
+let guessesLeft = 0
+let lettersGuessed = []
 
-// function game start
-    // generates a random number between 0 and 25 and stores in variable
-        // this number references the index within the array
-    //sets the number of guesses left to 9
-
+let gameStart = function() {
+    rando = Math.ceil(Math.random() * 25); 
+    guessesLeft = 9
+    lettersGuessed = []
     
+    document.getElementById("wins").innerHTML = "Wins: " + wins
+    document.getElementById("losses").innerHTML = "Losses: " + losses
+    document.getElementById("guessesLeft").innerHTML = "Guesses Remaining: " + guessesLeft
+    document.getElementById("lettersGuessed").innerHTML = "Letters Guessed: " + lettersGuessed
+}
 
-//function user input
-    //listens for user input
-        //filters for letters only
-    //if guesses left >0 compares user input to the letter at index of possible letters array
-        // if user input matches letter
-            //wins +1
-            //table resets
-            //new game starts
-        //else
-            //number of guesses -1
-    //else
-        //losses +1
-        //table resets
+gameStart();
+
+let gamePlay = function() {
+    document.onkeyup = function(event) {
+        if (guessesLeft > 1) {
+            let userGuess = event.key
+            
+            lettersGuessed.push(userGuess)
+            document.getElementById("lettersGuessed").innerHTML = "Letters Guessed: " + lettersGuessed + " "
+            
+            if (userGuess === lttrArray[rando]) {
+                alert("You Won!")
+                wins = wins + 1
+                gameStart()
+            } else {
+                guessesLeft = guessesLeft - 1
+                document.getElementById("guessesLeft").innerHTML = "Guesses Left: " + guessesLeft
+            }
+        } else {
+            alert("You Lost!")
+            losses = losses + 1
+            gameStart()
+        }
+    }
+}
+
+    gamePlay()
